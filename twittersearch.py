@@ -18,23 +18,6 @@ savedTweets = 0
 newestDate = datetime.fromtimestamp(0)
 oldestDate = datetime.utcnow()
 
-#try:
-#    for page in Cursor(tweepy.api.search, geocode='50.565794,4.438477,150km', rpp=100, result_type='recent').pages():
-#        for status in page:
-#            totalTweets += 1
-#            text = status.text.encode('utf-8')
-#            text = re.sub(r'\n|\r', '', text)
-            #output.write(text + " | " +str(status.created_at) + "\n")
-#except TweepError, t:
-#    print "TweepError: "
-#    for attr, value in t.response.__dict__.iteritems():
-#        print attr, value
-#finally:
-    #output.close()
-
-
-#print "\nFINISHED with " + str(totalTweets) + " tweets\n\n"
-
 try:
     with open('.twittersearch', 'r') as conf:
         lines = conf.readlines()
