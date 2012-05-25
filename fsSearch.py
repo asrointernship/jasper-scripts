@@ -79,6 +79,7 @@ try:
 except KeyboardInterrupt:
     print >> sys.stderr, "KeyboardInterrupt"
 finally:
+    connection.close()
     try:
         with open('.fsSearch', 'w') as conf:
             conf.write(str(number))

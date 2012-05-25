@@ -67,6 +67,7 @@ while loop:
         time.sleep(60*5)
         print "Resuming.\n"
 
+connection.close()
 #out.close()
 end = datetime.utcnow()
 delta = timedelta(microseconds=end.microsecond)
