@@ -160,7 +160,7 @@ if ok:
                     number = number + 1
                     point = getPoint(fullbbox, number)
                 except KeyboardInterrupt as ex:
-                    coords.flush()
+                    #coords.flush()
                     raise ex
                 except JSONDecodeError as ex:
                     print ex
