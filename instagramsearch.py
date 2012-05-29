@@ -68,7 +68,7 @@ if ok:
     try:
         connection = Connection()
         db = connection.socialmap
-        twitterDB = db.instagram
+        instagramDB = db.instagram
         
         api = InstagramAPI(client_id='fb2728054e0f462cb97e99eb056e4ddc')
         
@@ -105,31 +105,73 @@ if ok:
                 return None
         
         
-        with open('instaCoords.txt', 'w') as coords:
-            while mintime>end:
-                point = getPoint(fullbbox, number)
-                print datetime.datetime.fromtimestamp(maxtime)
-                while point:
-                    try:
-                        media = api.media_search(min_timestamp=mintime, max_timestamp=maxtime, lat=point['lat'], lng=point['lng'], distance=5000)
-                        for m in media:
+        while mintime>end:
+            point = getPoint(fullbbox, number)
+            print datetime.datetime.fromtimestamp(maxtime)
+            while point:
+                try:
+                    media = api.media_search(min_timestamp=mintime, max_timestamp=maxtime, lat=point['lat'], lng=point['lng'], distance=5000)
+                    for m in media:
+                        latitude = None
+                        longitude = None
+                        locID = None
+                        locName = None
+                        instaFilter = None
+                        userid = None
+                        username = None
+                        like_count = None
+                        url = None
+                        created_at = None
+                        caption = None
+                        _id = None
+                        
+                        try:
+                            _id = m.id
+                            if m.location and m.location.point:
+                                if m.location.id:
+                                    locID = m.location.id
+                                if m.location.point.latitude and m.location.point.longitude:
+                                    latitude = m.location.point.latitude
+                                    longitude = m.location.point.longitude
+                                if m.location.name:
+                                    locName = m.location.name
+                            if m.user:
+                                if m.user.id:
+                                    userid = m.user.id
+                                if m.user.username:
+                                    username = m.user.username
+                            if m.filter:
+                                instaFilter = m.filter
+                            like_count = m.like_count
+                            if m.get_standard_resolution_url():
+                                url = m.get_standard_resolution_url()
+                            if m.created_time:
+                                created_at = m.created_time
+                            if m.caption:
+                                caption = m.caption.text
+                            
+                            if _id and latitude and longitude:
+                                instagramDB.insert({'_id':_id, 'latitude':latitude, 'longitude':longitude, 'locationID':locID, 'locationName':locName, 'filter':instaFilter, 'userID':userid, 'username':username, 'like_count':like_count, 'url':url, 'created_at':created_at, 'caption':caption})
+                            
                             #coords.write("{}\t{}\n".format(m.created_time, m.id))
-                            coords.write("{} {}\n".format(m.location.point.latitude, m.location.point.longitude))
-                        number = number + 1
-                        point = getPoint(fullbbox, number)
-                    except KeyboardInterrupt as ex:
-                        coords.flush()
-                        raise ex
-                    except JSONDecodeError as ex:
-                        print ex
-                    except BaseException as ex:
-                        print "Error:", ex
-                        print "Going to sleep."
-                        time.sleep(15*60)
-                        print "Resuming."
-                maxtime = mintime
-                mintime = mintime - delta
-                number = 0
+                            #coords.write("{} {}\n".format(m.location.point.latitude, m.location.point.longitude))
+                        except BaseException as ex:
+                            print ex
+                    number = number + 1
+                    point = getPoint(fullbbox, number)
+                except KeyboardInterrupt as ex:
+                    coords.flush()
+                    raise ex
+                except JSONDecodeError as ex:
+                    print ex
+                except BaseException as ex:
+                    print "Error:", ex
+                    print "Going to sleep."
+                    time.sleep(15*60)
+                    print "Resuming."
+            maxtime = mintime
+            mintime = mintime - delta
+            number = 0
         print "Search Finished."
     except BaseException as ex:
         print ex
