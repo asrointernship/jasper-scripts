@@ -1,0 +1,12 @@
+map = function () {
+    emit({latitude:this.latitude, longitude:this.longitude}, {count:1, ids: [this._id]});
+}
+
+reduce = function (key, values) {
+    result = {ids: [], count:0};
+    values.forEach(function (value) {
+        result.count += value.count;
+        result.ids = result.ids.concat(value.ids);
+    });
+    return result;
+}
