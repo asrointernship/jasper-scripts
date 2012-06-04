@@ -159,11 +159,17 @@ if ok:
                             print ex
                     number = number + 1
                     point = getPoint(fullbbox, number)
+                    time.sleep(0.36)
                 except KeyboardInterrupt as ex:
                     #coords.flush()
                     raise ex
                 except JSONDecodeError as ex:
                     print ex
+                except KeyError as ex:
+                    print "KeyError:", ex
+                    print "Going to sleep."
+                    time.sleep(5*60)
+                    print "Resuming."
                 except BaseException as ex:
                     print "Error:", ex
                     print "Going to sleep."
