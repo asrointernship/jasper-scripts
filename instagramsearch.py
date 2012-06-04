@@ -159,7 +159,7 @@ if ok:
                             print ex
                     number = number + 1
                     point = getPoint(fullbbox, number)
-                    time.sleep(0.36)
+                    time.sleep(0.2)
                 except KeyboardInterrupt as ex:
                     #coords.flush()
                     raise ex
