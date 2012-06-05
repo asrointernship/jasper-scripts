@@ -86,8 +86,8 @@ if ok:
             mintime = maxtime - delta
             number = 0
         
-        #fullbbox = {'swLng':2.570801 , 'swLat':49.475263 , 'neLng':6.437988 , 'neLat':51.512161} # Belgium
-        fullbbox = {'swLng':4.239349 , 'swLat':50.764259 , 'neLng':4.490662 , 'neLat':50.920351} # Brussels
+        fullbbox = {'swLng':2.570801 , 'swLat':49.475263 , 'neLng':6.437988 , 'neLat':51.512161} # Belgium
+        #fullbbox = {'swLng':4.239349 , 'swLat':50.764259 , 'neLng':4.490662 , 'neLat':50.920351} # Brussels
         
         def getPoint(bbox, number):
             stepLng = 0.05
